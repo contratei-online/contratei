@@ -83,7 +83,9 @@ const ERROS_AUTH = [
   [/email not confirmed/i, 'Confirme seu e-mail antes de entrar. Procure a mensagem da Contratei na sua caixa de entrada (e no spam).'],
   [/user already registered|already been registered/i, 'Já existe uma conta com este e-mail. Use “Entrar” ou “Esqueci minha senha”.'],
   [/password should be at least|weak password/i, 'Senha fraca. Use pelo menos 8 caracteres, com letras e números.'],
-  [/rate limit|too many requests|security purposes/i, 'Muitas tentativas em pouco tempo. Aguarde um minuto e tente de novo.'],
+  [/email rate limit|over_email_send_rate_limit/i, 'O envio de e-mails de confirmação atingiu o limite por hora. Tente de novo mais tarde ou avise a equipe da Contratei.'],
+  [/security purposes|after \d+ seconds/i, 'Por segurança, aguarde alguns segundos antes de tentar de novo.'],
+  [/rate limit|too many requests/i, 'Muitas tentativas em pouco tempo. Aguarde alguns minutos e tente de novo.'],
   [/unable to validate email|invalid email/i, 'E-mail inválido.'],
   [/same password|different from the old/i, 'A nova senha precisa ser diferente da anterior.'],
 ];
