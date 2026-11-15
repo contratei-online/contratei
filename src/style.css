@@ -1081,3 +1081,27 @@ body,html{background:var(--paper)}
 @media (max-width:360px){.hs-et b{font-size:.62rem}.hs-simbolo{width:42px;height:34px}.hs-word{height:34px}}
 .hs-tm{display:none}
 @media (max-width:760px){.hs-tm{display:inline}.hs-td{display:none}}
+/* História: versão mais compacta no computador */
+@media (min-width:761px){
+  .hs{padding:2.2rem 2.4rem 2rem;border-radius:24px}
+  .hs-h{font-size:1.7rem}
+  .hs-sub{font-size:.95rem}
+  .hs-logo{gap:.7rem;margin:1.5rem auto 1.4rem}
+  .hs-simbolo{width:76px;height:61px}
+  .hs-word{height:58px}
+  .hs-et{padding:1rem .9rem 1.1rem;gap:.35rem}
+  .hs-et-ic{height:32px}
+  .hs-ic{width:40px;height:32px}
+  .hs-ei-ic{font-size:1.9rem}
+  .hs-et b{font-size:1.02rem}
+  .hs-et-c{font-size:.86rem}
+  .hs-bar{left:.9rem;right:.9rem}
+  .hs-painel{gap:1.4rem;padding:1.3rem 1.4rem 1.2rem;margin-top:1rem;border-radius:16px}
+  .hs-p-num{font-size:2rem}
+  .hs-p-body{gap:.45rem}
+  .hs-p-body h3{font-size:1.25rem}
+  .hs-p-body p{font-size:.95rem;line-height:1.6}
+  .hs-na{font-size:.9rem}
+  .hs-nav button{width:36px;height:36px;font-size:1.25rem}
+  .hs-cta button{height:44px;font-size:.9rem}
+}
