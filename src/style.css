@@ -864,9 +864,10 @@ body,html{background:var(--paper)}
   .lp-strip>div{justify-content:flex-start}
 }
 @media (max-width:760px){
-  .lp-hero .lp-l{align-items:center;text-align:center}
-  .lp-hero .lp-p{margin:0 auto}
-  .lp-hero .lp-btns{justify-content:center;width:100%}
+  .lp-hero{padding-top:1.75rem}
+  .lp-hero .lp-l{align-items:flex-start;text-align:left}
+  .lp-hero .lp-p{margin:0}
+  .lp-hero .lp-btns{justify-content:flex-start;width:100%}
   .rodape-base{align-items:center;text-align:center}
   .rodape-in{text-align:center}
   .rod-marca img{margin:0 auto 1.1rem}
