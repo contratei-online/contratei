@@ -1,0 +1,17 @@
+{
+  "name": "contratei",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Contratei — conexão entre empresas e profissionais de vendas por compatibilidade",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "dependencies": {
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}
