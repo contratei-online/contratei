@@ -7,6 +7,7 @@ import { seed, COMPS, TRILHAS, nivelTreino, REGRA_TREINO, novoCandidato, novaEmp
 import { saldo, saldoTxt, plano as planoDe } from './creditos.js';
 import { PLANOS } from './data.js';
 import { COLS, montar, diferencas, criarGravador } from './remote.js';
+import { Historia } from './historia.jsx';
 import { SUPA, cliente, criarStore, conta, erroAuth } from './supa.js';
 import { Admin } from './admin.jsx';
 import { POLITICA } from './legal.js';
@@ -1056,6 +1057,10 @@ function Entrada() {
 
       <section className="lp-wrap" id="planos">
         <PlanosPublicos />
+      </section>
+
+      <section className="lp-wrap" id="historia">
+        <Historia />
       </section>
 
       <section className="lp-wrap" id="perguntas">

@@ -982,3 +982,102 @@ body,html{background:var(--paper)}
   .duo-b{font-size:.6rem;padding:0 .45rem}
   .page-h h1{font-size:1.4rem}
 }
+
+/* =====================================================================
+   A história por trás da Contratei
+   ===================================================================== */
+.hs{background:#0A0A0A;color:#fff;border-radius:28px;padding:3rem 3rem 2.5rem;position:relative;overflow:hidden;
+  background-image:radial-gradient(600px 300px at 85% -10%,rgba(167,236,25,.12),transparent 70%),radial-gradient(500px 260px at 0% 110%,rgba(167,236,25,.07),transparent 70%)}
+.hs-top{display:flex;flex-direction:column;gap:.6rem;max-width:760px}
+.hs-h{font-family:'Plus Jakarta Sans',Inter,sans-serif;font-weight:800;font-size:2.2rem;letter-spacing:-.02em;line-height:1.1;margin:0;color:#fff}
+.hs-slash{color:var(--lime);font-style:italic;margin-right:.35rem}
+.hs-sub{color:rgba(255,255,255,.68);font-size:1.02rem;line-height:1.55;margin:0}
+
+.hs-logo{display:flex;align-items:flex-end;justify-content:center;gap:1.1rem;margin:2.4rem auto 2.2rem}
+.hs-simbolo{width:150px;height:120px;flex-shrink:0;overflow:visible}
+.hs-simbolo .hs-p{transition:fill .35s,opacity .35s,transform .35s;transform-box:fill-box;transform-origin:50% 100%}
+.hs-logo:not(.etapa-ei) .hs-simbolo .hs-p:not(.on){opacity:.28}
+.hs-simbolo .hs-p.on{filter:drop-shadow(0 0 6px rgba(167,236,25,.7));animation:hsPulse 1.8s ease-in-out infinite}
+.hs-word{display:flex;align-items:flex-end;height:116px}
+.hs-word img{height:100%;width:auto;display:block}
+.hs-contrat{transition:opacity .35s}
+.hs-logo:not(.etapa-ei) .hs-eiw{opacity:.45}
+.hs-logo.etapa-ei .hs-contrat{opacity:.45}
+.hs-eiw{transition:opacity .35s,filter .35s,transform .35s;transform-origin:50% 100%}
+.hs-eiw.on{filter:drop-shadow(0 0 10px rgba(167,236,25,.75));animation:hsPulse 1.8s ease-in-out infinite}
+@keyframes hsPulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+
+.hs-etapas{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid rgba(255,255,255,.08)}
+.hs-et{position:relative;background:none;border:0;color:#fff;text-align:left;padding:1.4rem 1.1rem 1.5rem;display:flex;flex-direction:column;gap:.45rem;cursor:pointer;border-left:1px solid rgba(167,236,25,.35);transition:background .25s}
+.hs-et:first-child{border-left:0}
+.hs-et:hover{background:rgba(255,255,255,.03)}
+.hs-et.on{background:rgba(167,236,25,.07)}
+.hs-et:focus-visible{outline:2px solid var(--lime);outline-offset:-2px}
+.hs-et-ic{height:44px;display:flex;align-items:flex-end}
+.hs-ic{width:54px;height:44px;transition:transform .25s}
+.hs-et:hover .hs-ic,.hs-et.on .hs-ic{transform:translateY(-2px) scale(1.06)}
+.hs-ei-ic{font-family:'Plus Jakarta Sans',Inter,sans-serif;font-weight:800;font-style:italic;font-size:2.6rem;line-height:.9;color:var(--lime);letter-spacing:-.04em;transition:transform .25s}
+.hs-et:hover .hs-ei-ic,.hs-et.on .hs-ei-ic{transform:translateY(-2px) scale(1.06)}
+.hs-et b{font-family:'Plus Jakarta Sans',Inter,sans-serif;font-size:1.25rem;font-weight:800;letter-spacing:-.01em}
+.hs-et-c{color:rgba(255,255,255,.7);font-size:.95rem;line-height:1.4}
+.hs-et:not(.on) b{color:rgba(255,255,255,.85)}
+.hs-bar{position:absolute;left:1.1rem;right:1.1rem;top:0;height:3px;background:transparent;border-radius:3px;overflow:hidden}
+.hs-et.on .hs-bar{background:rgba(255,255,255,.1)}
+.hs-fill{display:block;height:100%;width:0;background:var(--lime);animation:hsFill linear forwards}
+.hs-fill.cheia{width:100%;animation:none}
+.hs-et.feita .hs-fill.cheia{opacity:.45}
+@keyframes hsFill{to{width:100%}}
+
+.hs-painel{display:grid;grid-template-columns:auto 1fr auto;gap:1.75rem;align-items:start;margin-top:1.25rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:1.75rem 1.75rem 1.6rem;animation:hsIn .45s ease}
+@keyframes hsIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hs-p-num{font-family:'Plus Jakarta Sans',Inter,sans-serif;font-weight:800;font-size:2.6rem;line-height:1;color:var(--lime);letter-spacing:-.03em}
+.hs-p-num span{font-size:1rem;color:rgba(255,255,255,.35);font-weight:700}
+.hs-p-body{display:flex;flex-direction:column;gap:.6rem;max-width:720px}
+.hs-p-k{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;font-weight:800;color:var(--lime)}
+.hs-p-body h3{font-family:'Plus Jakarta Sans',Inter,sans-serif;font-size:1.55rem;font-weight:800;line-height:1.2;margin:0;color:#fff}
+.hs-p-body p{color:rgba(255,255,255,.78);font-size:1.02rem;line-height:1.65;margin:0}
+.hs-na{display:flex;flex-direction:column;gap:.2rem;border-left:3px solid var(--lime);padding:.25rem 0 .25rem .85rem;margin-top:.35rem;color:#fff;font-size:.95rem;line-height:1.5}
+.hs-na span{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;font-weight:800;color:rgba(255,255,255,.5)}
+.hs-cta{display:flex;gap:.65rem;flex-wrap:wrap;margin-top:.6rem}
+.hs-cta button{height:48px;padding:0 1.4rem;border-radius:12px;font-weight:800;font-size:.95rem}
+.hs-out{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.85)}
+.hs-out:hover{background:rgba(255,255,255,.08)}
+.hs-nav{display:flex;gap:.45rem}
+.hs-nav button{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff;font-size:1.5rem;line-height:1;display:grid;place-items:center;cursor:pointer;transition:.2s}
+.hs-nav button:hover{background:var(--lime);color:#000;border-color:var(--lime)}
+
+@media (prefers-reduced-motion:reduce){.hs-simbolo .hs-p.on,.hs-eiw.on,.hs-painel{animation:none}}
+@media (max-width:980px){
+  .hs{padding:2.4rem 1.6rem 2rem}
+  .hs-et{padding:1.2rem .7rem 1.3rem}
+  .hs-et b{font-size:1.05rem}
+  .hs-et-c{font-size:.85rem}
+}
+@media (max-width:760px){
+  .hs{padding:2rem 1.05rem 1.4rem;border-radius:22px}
+  .hs-h{font-size:1.55rem}
+  .hs-sub{font-size:.93rem}
+  .hs-logo{gap:.55rem;margin:1.6rem auto 1.4rem}
+  .hs-logo{gap:.4rem}
+  .hs-simbolo{width:50px;height:40px}
+  .hs-word{height:40px}
+  /* Etapas: só ícone + nome numa faixa; o texto vai para o painel */
+  .hs-etapas{gap:.3rem;border-top:0}
+  .hs-et{border-left:0;padding:.75rem .15rem .6rem;align-items:center;text-align:center;gap:.3rem;border-radius:12px}
+  .hs-et-c{display:none}
+  .hs-et b{font-size:.7rem;letter-spacing:0}
+  .hs-et-ic{height:30px;align-items:center}
+  .hs-ic{width:36px;height:29px}
+  .hs-ei-ic{font-size:1.75rem}
+  .hs-bar{left:.5rem;right:.5rem;bottom:0;top:auto}
+  .hs-painel{grid-template-columns:1fr;gap:.75rem;padding:1.2rem 1.05rem 1.1rem;margin-top:.75rem;border-radius:16px}
+  .hs-p-num{font-size:1.6rem}
+  .hs-p-body h3{font-size:1.2rem}
+  .hs-p-body p{font-size:.94rem;line-height:1.6}
+  .hs-na{font-size:.9rem}
+  .hs-cta button{flex:1 1 100%}
+  .hs-nav{justify-content:flex-end}
+}
+@media (max-width:360px){.hs-et b{font-size:.62rem}.hs-simbolo{width:42px;height:34px}.hs-word{height:34px}}
+.hs-tm{display:none}
+@media (max-width:760px){.hs-tm{display:inline}.hs-td{display:none}}
