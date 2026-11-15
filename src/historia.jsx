@@ -97,6 +97,7 @@ export function Historia() {
         </span>
       </div>
 
+      <div className="hs-corpo">
       <div className="hs-etapas" role="tablist" aria-label="Etapas da história da Contratei" onKeyDown={teclas}>
         {ETAPAS.map((x, n) => (
           <button key={x.id} role="tab" id={`hs-t-${x.id}`} aria-selected={n === i} aria-controls="hs-painel" tabIndex={n === i ? 0 : -1}
@@ -127,6 +128,7 @@ export function Historia() {
           <button onClick={() => ir(i - 1)} aria-label="Etapa anterior">‹</button>
           <button onClick={() => ir(i + 1)} aria-label="Próxima etapa">›</button>
         </div>
+      </div>
       </div>
     </div>
   );

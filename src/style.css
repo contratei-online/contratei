@@ -1105,3 +1105,22 @@ body,html{background:var(--paper)}
   .hs-nav button{width:36px;height:36px;font-size:1.25rem}
   .hs-cta button{height:44px;font-size:.9rem}
 }
+/* História no computador: etapas à esquerda, explicação à direita (cabe numa tela) */
+@media (min-width:761px){
+  .hs{padding:2rem 2.2rem 2rem}
+  .hs-logo{margin:1.2rem auto 1.4rem}
+  .hs-corpo{display:grid;grid-template-columns:minmax(260px,330px) 1fr;gap:1.25rem;align-items:stretch}
+  .hs-etapas{grid-template-columns:1fr;border-top:0;gap:.3rem;align-content:start}
+  .hs-et{display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto auto;column-gap:.75rem;row-gap:.1rem;align-items:center;padding:.6rem .8rem .6rem .7rem;border-left:0;border-radius:12px}
+  .hs-et-ic{grid-row:1/3;height:auto;justify-content:center}
+  .hs-ic{width:38px;height:30px}
+  .hs-ei-ic{font-size:1.7rem}
+  .hs-et b{font-size:.98rem}
+  .hs-et-c{font-size:.82rem;line-height:1.35}
+  .hs-et.on{background:rgba(167,236,25,.1);box-shadow:inset 3px 0 0 var(--lime)}
+  .hs-bar{left:auto;right:.7rem;top:auto;bottom:.45rem;width:48px;height:2px}
+  .hs-et:not(.on) .hs-bar{display:none}
+  .hs-painel{margin-top:0;grid-template-columns:auto 1fr;grid-template-rows:auto 1fr;align-content:start;position:relative}
+  .hs-nav{position:absolute;top:1.1rem;right:1.1rem}
+  .hs-p-body{padding-right:5.5rem}
+}
