@@ -245,6 +245,9 @@ function App() {
     setModal(null); window.scrollTo(0, 0);
     if (SUPA) {
       if (!eu.id) { setUi((u) => ({ ...u, login: { tipo: tp, etapa: 'senha', aba }, tela: null })); return; }
+      // Já conectado e pediu para criar conta: pergunta se é com esta conta ou com outra
+      const temPerfil = tp === 'cand' ? dbRef.current.candidatos[eu.id] : dbRef.current.empresas[eu.id];
+      if (aba === 'criar' && !temPerfil) { setUi((u) => ({ ...u, login: { tipo: tp, etapa: 'conta', aba: 'criar' }, tela: null })); return; }
       if (pronto !== eu.id) { pendente.set(tp); return; } // espera os dados da conta carregarem
     }
     if (modoRef.current === 'online' && eu.id && !jaLogado && !contaLogada) {
@@ -684,7 +687,7 @@ function LoginSupa() {
   const { ui, fecharLogin, eu, db, abrirCadastro, aguardarLogin, senhaFraca, pronto } = useContext(Ctx);
   const ini = ui.login || {};
   const [tipo, setTipo] = useState(ini.tipo || 'cand');
-  const [etapa, setEtapa] = useState(ini.etapa === 'nova-senha' ? 'nova-senha' : ini.etapa === 'senha' ? 'senha' : 'tipo');
+  const [etapa, setEtapa] = useState(['nova-senha', 'senha', 'conta'].includes(ini.etapa) ? ini.etapa : 'tipo');
   const [aba, setAba] = useState(ini.aba === 'criar' ? 'criar' : 'entrar'); // entrar | criar | esqueci
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -749,6 +752,23 @@ function LoginSupa() {
       </span>
     </label>
   );
+
+  if (etapa === 'conta' && eu.id) {
+    const outraConta = async () => { setBusy(true); aguardarLogin(null); await conta.sair().catch(() => {}); setBusy(false); setAba('criar'); setEtapa('senha'); };
+    return (
+      <main className="login-pg"><div className="login-card">
+        <img src={LOGO_DARK} alt="Contratei" className="login-logo" />
+        <span className="pill mini login-tipo">{tipo === 'cand' ? <IcUser size={13} /> : <IcBuilding size={13} />} {tipo === 'cand' ? 'Quero trabalhar' : 'Quero contratar'}</span>
+        <h1>Você já está conectado</h1>
+        <p className="muted">Este navegador está com a conta <b>{eu.email || eu.nome}</b> aberta. Quer criar o {tipo === 'cand' ? 'perfil de candidato' : 'cadastro da empresa'} nesta conta ou criar uma conta nova?</p>
+        <div className="login-escolha">
+          <button type="button" className="b-lime login-btn" disabled={busy} onClick={outraConta}>{busy ? 'Saindo…' : 'Criar uma conta nova'}</button>
+          <button type="button" className="b-out login-btn" disabled={busy} onClick={() => abrirCadastro(tipo)}>Usar a conta {eu.email || 'conectada'}</button>
+        </div>
+        <div className="login-links"><button type="button" className="link small" onClick={fecharLogin}>Voltar para o início</button></div>
+      </div></main>
+    );
+  }
 
   if (entrando || (eu.id && etapa === 'senha')) {
     return (
