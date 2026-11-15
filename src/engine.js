@@ -237,13 +237,15 @@ export function avaliar(c, o) {
   const rel = [...o.essenciais.map((k) => [k, 2]), ...o.desejaveis.filter((k) => !o.essenciais.includes(k)).map((k) => [k, 1])];
   const W = rel.reduce((s, [, w]) => s + w, 0) || 1;
   let sd = 0, se = 0;
-  const demo = [], decl = [], dev = [], falta = [], dica = [];
+  const demo = [], decl = [], dev = [], falta = [], dica = [], cert = [];
+  const comCert = new Set((Array.isArray(c.certificados) ? c.certificados : []).map((x) => x && x.comp).filter(Boolean));
   rel.forEach(([k, w]) => {
     const t = c.treinos?.[k];
     const demonstrada = t && t.score >= 50;
     let lvl = 0;
     if (demonstrada) { lvl = 1; demo.push(k); se += w * (t.score / 100); }
     else if (c.competencias.includes(k)) { lvl = 0.5; decl.push(k); }
+    else if (comCert.has(k)) { lvl = 0.5; cert.push(k); }
     else if (o.aceitaIniciante && c.desenvolver.includes(k)) { lvl = 0.25; dev.push(k); }
     else if (w === 2) falta.push(k);
     if (!demonstrada) dica.push(k);
@@ -260,6 +262,7 @@ export function avaliar(c, o) {
   }
   K('comp');
   if (decl.length) add('ok', 'D', `Você declarou ${nm(decl)}, ${decl.length > 1 ? 'competências pedidas' : 'competência pedida'} nesta oportunidade.`, `Declara ${nm(decl)}.`);
+  if (cert.length) add('ok', 'D', `Seu curso/certificado em ${nm(cert)} conta como competência nesta oportunidade.`, `Tem curso ou certificado em ${nm(cert)}.`);
   K('dev');
   if (dev.length) add('parcial', 'D', `Você quer desenvolver ${nm(dev)}, e a empresa aceita quem está começando.`, `Quer desenvolver ${nm(dev)}.`);
   K('falta');

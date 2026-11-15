@@ -237,6 +237,7 @@ function CandCard({ c, o, r, pos }) {
         {c.cursos && <span className="badge light">{c.cursos}</span>}
         {c.viagens && <span className="badge light">{VIAGENS_C[c.viagens]}</span>}
       </div>
+      {(c.certificados || []).length > 0 && <div className="small muted cert-cnt">🎓 {c.certificados.length} {c.certificados.length > 1 ? 'cursos ou certificados' : 'curso ou certificado'}</div>}
       {treinos.length > 0 && (
         <div className="badges">{treinos.map(([k, t]) => <span key={k} className="badge"><Bars stage={2} size={15} /> {COMPS[k]} · {nivelTreino(t.score)} ({t.score})</span>)}</div>
       )}
@@ -250,6 +251,17 @@ function CandCard({ c, o, r, pos }) {
             <div className="why-h">Experiências</div>
             {c.experiencias.map((x, i) => <div key={i} className="small"><b>{x.cargo}</b>{x.empresa && ` · ${match ? x.empresa : x.empresa}`}{x.periodo && ` · ${x.periodo}`}{x.descricao && <div className="muted">{x.descricao}</div>}</div>)}
             {c.resultados && <div className="small"><span className="muted">Resultados:</span> {c.resultados}</div>}
+          </div>
+        )}
+        {(c.certificados || []).length > 0 && (
+          <div className="exp-view">
+            <div className="why-h">Cursos e certificados</div>
+            {c.certificados.map((x) => (
+              <div key={x.id} className="small">
+                <b>{x.nome}</b>{x.inst && ` · ${x.inst}`}{x.horas ? ` · ${x.horas} h` : ''}{x.ano ? ` · ${x.ano}` : ''}{x.comp && <span className="pill mini lime" style={{ marginLeft: '.4rem' }}>{COMPS[x.comp]}</span>}
+                {x.link && (match ? <> · <a className="link" href={x.link} target="_blank" rel="noopener noreferrer">ver certificado</a></> : <span className="muted"> · link liberado após o match</span>)}
+              </div>
+            ))}
           </div>
         )}
         <Breakdown partes={r.partes} />

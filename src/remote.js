@@ -22,6 +22,15 @@ function normCand(id, d) {
   c.experiencia = Number(c.experiencia) || 0;
   ['nome', 'exib', 'cidade', 'sobre', 'cursos', 'resultados'].forEach((k) => { c[k] = typeof c[k] === 'string' ? c[k] : ''; });
   if (typeof c.foto !== 'string' || !c.foto.startsWith('data:image/')) c.foto = null;
+  c.certificados = arr(c.certificados).filter((x) => x && typeof x === 'object').slice(0, 30).map((x, i) => ({
+    id: typeof x.id === 'string' ? x.id.slice(0, 40) : `c${i}`,
+    nome: typeof x.nome === 'string' ? x.nome.slice(0, 120) : '',
+    inst: typeof x.inst === 'string' ? x.inst.slice(0, 100) : '',
+    horas: Math.max(0, Math.min(5000, Number(x.horas) || 0)),
+    ano: Math.max(0, Math.min(2100, Number(x.ano) || 0)),
+    comp: typeof x.comp === 'string' ? x.comp.slice(0, 40) : '',
+    link: typeof x.link === 'string' && /^https:\/\//.test(x.link) ? x.link.slice(0, 400) : '',
+  })).filter((x) => x.nome);
   if (!c.exib) c.exib = c.nome ? c.nome.split(/\s+/)[0] : 'Candidato';
   return c;
 }

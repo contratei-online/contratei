@@ -1124,3 +1124,27 @@ body,html{background:var(--paper)}
   .hs-nav{position:absolute;top:1.1rem;right:1.1rem}
   .hs-p-body{padding-right:5.5rem}
 }
+/* Cursos e certificados do candidato */
+.certs{display:flex;flex-direction:column;gap:.9rem}
+.certs-h{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.certs-h h3{margin:0 0 .25rem;font-size:1.1rem}
+.certs-h p{margin:0;max-width:640px;line-height:1.5}
+.certs-vazio{background:var(--s2);border:1px dashed var(--line);border-radius:12px;padding:.9rem;text-align:center}
+.certs-l{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.cert{display:grid;grid-template-columns:auto 1fr auto;gap:.75rem;align-items:start;background:var(--s2);border:1px solid var(--line);border-radius:12px;padding:.75rem .85rem}
+.cert-ic{width:36px;height:36px;border-radius:10px;background:var(--lime-bg);display:grid;place-items:center;font-size:1.1rem}
+.cert-b{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.cert-b b{overflow-wrap:anywhere}
+.cert-tags{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-top:.2rem}
+.cert-acts{display:flex;flex-direction:column;gap:.3rem;align-items:flex-end}
+.danger-l{color:#b42318}
+.cert-form{display:flex;flex-direction:column;gap:.75rem;border-top:1px solid var(--line);padding-top:.9rem}
+.cert-form-a{display:flex;gap:.5rem;flex-wrap:wrap}
+.cert-cnt{margin-top:-.2rem}
+@media (max-width:760px){
+  .certs-h{flex-direction:column;gap:.6rem}
+  .certs-h .btn{width:100%;justify-content:center}
+  .cert{grid-template-columns:auto 1fr;gap:.6rem}
+  .cert-acts{grid-column:1/-1;flex-direction:row;justify-content:flex-end;gap:1rem}
+  .cert-form-a .btn{flex:1;justify-content:center}
+}

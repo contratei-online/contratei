@@ -500,8 +500,102 @@ export function Treinamentos({ candId, trilhaInicial }) {
           );
         })}
       </div>
+      <Certificados candId={candId} />
       <div className="card rule"><div className="notice-h"><IcInfo size={16} /> Regra de registro da competência</div><p className="small">{REGRA_TREINO}</p></div>
       <CobrancaAviso />
+    </div>
+  );
+}
+
+// ---------- Cursos e certificados que a pessoa já tem ----------
+const CERT0 = { nome: '', inst: '', horas: '', ano: '', comp: '', link: '' };
+function Certificados({ candId }) {
+  const { db, upd, toast } = useContext(Ctx);
+  const lista0 = db.candidatos[candId].certificados || [];
+  const [form, setForm] = useState(null); // null = fechado; { ...campos, id? } = editando
+  const [erro, setErro] = useState('');
+  const set = (k, v) => { setForm((f) => ({ ...f, [k]: v })); setErro(''); };
+  const anoAtual = new Date().getFullYear();
+
+  const salvar = () => {
+    const f = form;
+    if (f.nome.trim().length < 3) { setErro('Informe o nome do curso ou certificado.'); return; }
+    if (f.inst.trim().length < 2) { setErro('Informe a instituição ou plataforma.'); return; }
+    const ano = Number(f.ano) || 0;
+    if (f.ano && (ano < 1950 || ano > anoAtual + 1)) { setErro(`Ano de conclusão inválido (use entre 1950 e ${anoAtual + 1}).`); return; }
+    let link = f.link.trim();
+    if (link && !/^https?:\/\//i.test(link)) link = `https://${link}`;
+    if (link && !/^https:\/\/[^\s.]+\.[^\s]+$/i.test(link.replace(/^http:/i, 'https:'))) { setErro('O link do certificado parece inválido.'); return; }
+    link = link.replace(/^http:/i, 'https:');
+    const item = { id: f.id || `cert${Date.now().toString(36)}`, nome: f.nome.trim().slice(0, 120), inst: f.inst.trim().slice(0, 100),
+      horas: Math.max(0, Math.min(5000, Number(f.horas) || 0)), ano, comp: f.comp, link: link.slice(0, 400) };
+    upd((d) => {
+      const l = d.candidatos[candId].certificados || [];
+      d.candidatos[candId].certificados = f.id ? l.map((x) => (x.id === f.id ? item : x)) : [...l, item];
+    });
+    setForm(null);
+    toast(f.id ? 'Certificado atualizado.' : (item.comp ? `Certificado salvo. Ele já conta como ${COMPS[item.comp].toLowerCase()} no seu ranking.` : 'Certificado salvo no seu perfil.'));
+  };
+  const remover = (id) => upd((d) => { d.candidatos[candId].certificados = (d.candidatos[candId].certificados || []).filter((x) => x.id !== id); });
+
+  return (
+    <div className="card certs">
+      <div className="certs-h">
+        <div>
+          <h3>Cursos e certificados que já tenho</h3>
+          <p className="small muted">Cadastre cursos feitos fora da Contratei: técnicos, livres, faculdade, workshops. Quando você liga o curso a uma competência, ele conta no ranking como competência declarada.</p>
+        </div>
+        {!form && <Btn kind="lime" size="sm" onClick={() => setForm({ ...CERT0 })}>+ Adicionar</Btn>}
+      </div>
+
+      {lista0.length === 0 && !form && <div className="certs-vazio small muted">Nenhum curso cadastrado ainda.</div>}
+
+      {lista0.length > 0 && (
+        <ul className="certs-l">
+          {lista0.map((x) => (
+            <li key={x.id} className="cert">
+              <div className="cert-ic" aria-hidden="true">🎓</div>
+              <div className="cert-b">
+                <b>{x.nome}</b>
+                <span className="small muted">{[x.inst, x.horas ? `${x.horas} h` : '', x.ano || ''].filter(Boolean).join(' · ')}</span>
+                <span className="cert-tags">
+                  {x.comp && <span className="pill mini lime">{COMPS[x.comp]}</span>}
+                  {x.link && <a className="link small" href={x.link} target="_blank" rel="noopener noreferrer">Ver certificado</a>}
+                </span>
+              </div>
+              <div className="cert-acts">
+                <button className="link small" onClick={() => setForm({ ...x, horas: x.horas || '', ano: x.ano || '' })}>Editar</button>
+                <button className="link small danger-l" onClick={() => remover(x.id)}>Remover</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {form && (
+        <div className="cert-form">
+          <div className="grid2">
+            <Field label="Nome do curso ou certificado"><input className="in" maxLength={120} placeholder="Ex.: Técnicas de vendas" value={form.nome} onChange={(e) => set('nome', e.target.value)} autoFocus /></Field>
+            <Field label="Instituição ou plataforma"><input className="in" maxLength={100} placeholder="Ex.: Senac, Sebrae, Udemy" value={form.inst} onChange={(e) => set('inst', e.target.value)} /></Field>
+            <Field label="Carga horária (horas)" hint="Opcional"><input className="in" type="number" min="0" max="5000" inputMode="numeric" placeholder="Ex.: 40" value={form.horas} onChange={(e) => set('horas', e.target.value)} /></Field>
+            <Field label="Ano de conclusão" hint="Opcional"><input className="in" type="number" min="1950" max={anoAtual + 1} inputMode="numeric" placeholder={String(anoAtual)} value={form.ano} onChange={(e) => set('ano', e.target.value)} /></Field>
+          </div>
+          <Field label="Competência relacionada" hint="Opcional. Escolha a que o curso mais desenvolveu.">
+            <select className="in" value={form.comp} onChange={(e) => set('comp', e.target.value)}>
+              <option value="">Nenhuma em específico</option>
+              {ent(COMPS).map(([k, l]) => <option key={k} value={k}>{l}</option>)}
+            </select>
+          </Field>
+          <Field label="Link do certificado" hint="Opcional. Google Drive, LinkedIn ou o site da instituição. A empresa só vê o link depois do match.">
+            <input className="in" type="url" inputMode="url" maxLength={400} placeholder="https://" value={form.link} onChange={(e) => set('link', e.target.value)} />
+          </Field>
+          {erro && <div className="login-erro" role="alert">{erro}</div>}
+          <div className="cert-form-a">
+            <Btn kind="lime" onClick={salvar}>{form.id ? 'Salvar alterações' : 'Salvar certificado'}</Btn>
+            <Btn kind="ghost" onClick={() => { setForm(null); setErro(''); }}>Cancelar</Btn>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

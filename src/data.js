@@ -267,7 +267,7 @@ export const novoCandidato = (id, nome = '') => ({
   salarioMin: 1600, comissao: 'indiferente', funcoes: [], segmentos: [], tiposVenda: [], experiencia: 0, competencias: [], desenvolver: [],
   prioridades: [], sobre: '', treinos: {}, nascimento: '', escolaridade: '', cursos: '', idiomas: [], ferramentas: [], publicos: [],
   cnh: 'nenhuma', veiculo: 'nenhum', viagens: 'eventual', contratos: ['clt'], cargas: ['integral'], inicio: '15d', beneficios: [],
-  experiencias: [], resultados: '', foto: null,
+  experiencias: [], resultados: '', foto: null, certificados: [],
   obrig: { turno: false, dias: false, salario: false, modalidade: false, local: false, tipoVenda: false, segmento: false, contrato: false, carga: false },
   criadoEm: Date.now(),
 });
