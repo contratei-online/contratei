@@ -313,12 +313,8 @@ export function Recomendados({ empId, oppSel, setOppSel }) {
 
 // Seção pública de planos (página inicial): pacotes de créditos, pagamento único
 export function PlanosPublicos() {
-  const { ui, abrirLogin, openModal } = useContext(Ctx);
-  const comprar = (p) => {
-    if (ui.perfil?.tipo === 'emp') openModal({ type: 'comprar', empId: ui.perfil.id, plano: p.id });
-    else if (ui.sessao?.emp) openModal({ type: 'comprar', empId: ui.sessao.emp, plano: p.id });
-    else abrirLogin('emp');
-  };
+  const { comprarPlano } = useContext(Ctx);
+  const comprar = (p) => comprarPlano(p.id);
   return (
     <div className="lp-planos">
       <div className="lp-planos-h">

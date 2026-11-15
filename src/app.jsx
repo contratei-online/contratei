@@ -51,6 +51,11 @@ function App() {
     get: () => { try { const x = JSON.parse(localStorage.getItem(PKEY)); return x && Date.now() - x.ts < 86400000 ? x.v : null; } catch (e) { return null; } },
     set: (v) => { try { if (v) localStorage.setItem(PKEY, JSON.stringify({ v, ts: Date.now() })); else localStorage.removeItem(PKEY); } catch (e) { /* ignora */ } },
   };
+  // Plano escolhido antes do login: depois de entrar (e cadastrar a empresa), abre o pagamento dele
+  const planoPend = {
+    get: () => { try { const x = JSON.parse(localStorage.getItem('contratei-plano')); return x && Date.now() - x.ts < 86400000 ? x.v : null; } catch (e) { return null; } },
+    set: (v) => { try { if (v) localStorage.setItem('contratei-plano', JSON.stringify({ v, ts: Date.now() })); else localStorage.removeItem('contratei-plano'); } catch (e) { /* ignora */ } },
+  };
   const [modo, setModo] = useState(temRuntime ? 'carregando' : 'local');
   const modoRef = useRef(modo);
   useEffect(() => { modoRef.current = modo; }, [modo]);
@@ -262,6 +267,9 @@ function App() {
         upd((d) => { d.empresas[eu.id] = novaEmpresa(eu.id, ''); d.oportunidades[oid] = novaOportunidade(eu.id, oid); });
       }
       setUi((u) => ({ ...u, login: null, tela: null, perfil: { tipo: 'emp', id: eu.id }, wizard: existe ? null : 'emp', tab: { ...u.tab, emp: existe ? u.tab.emp : 'perfil' }, thread: null }));
+      const pl = planoPend.get();
+      if (pl && existe) { planoPend.set(null); setModal({ type: 'comprar', empId: eu.id, plano: pl }); }
+      else if (pl) setToast('Cadastre sua empresa. Ao concluir, abrimos o pagamento do plano escolhido.');
     }
   };
 
@@ -302,7 +310,26 @@ function App() {
     abrirAdmin: () => { setModal(null); window.scrollTo(0, 0); setUi((u) => ({ ...u, tela: adminLogado ? 'admin' : 'admin-login', login: null })); },
     fecharAdmin: () => setUi((u) => ({ ...u, tela: null })),
     sairAdmin: () => { if (SUPA) conta.sair().catch(() => {}); setUi((u) => { const s = { ...u.sessao }; delete s.admin; return { ...u, sessao: s, tela: null }; }); setToast('Você saiu do acesso de administrador.'); },
-    concluirWizard: (tp) => { setUi((u) => ({ ...u, wizard: null, tab: { ...u.tab, [tp]: tp === 'cand' ? 'oportunidades' : 'recomendados' } })); window.scrollTo(0, 0); setToast('Cadastro concluído! O ranking já foi calculado com o seu perfil.'); },
+    concluirWizard: (tp) => {
+      setUi((u) => ({ ...u, wizard: null, tab: { ...u.tab, [tp]: tp === 'cand' ? 'oportunidades' : 'recomendados' } })); window.scrollTo(0, 0);
+      const pl = tp === 'emp' && planoPend.get();
+      if (pl && ui.perfil?.id) { planoPend.set(null); setModal({ type: 'comprar', empId: ui.perfil.id, plano: pl }); return; }
+      setToast('Cadastro concluído! O ranking já foi calculado com o seu perfil.');
+    },
+    // Botão "Comprar" dos planos na página inicial
+    comprarPlano: (plano) => {
+      if (SUPA) {
+        if (eu.id && pronto === eu.id && dbRef.current.empresas[eu.id]) { setModal({ type: 'comprar', empId: eu.id, plano }); return; }
+        planoPend.set(plano);
+        if (eu.id) { abrirCadastro('emp'); return; }
+        setModal(null); window.scrollTo(0, 0);
+        setUi((u) => ({ ...u, login: { tipo: 'emp', etapa: 'senha', aba: 'criar', plano }, tela: null }));
+        return;
+      }
+      if (ui.perfil?.tipo === 'emp') setModal({ type: 'comprar', empId: ui.perfil.id, plano });
+      else if (ui.sessao?.emp) setModal({ type: 'comprar', empId: ui.sessao.emp, plano });
+      else { setModal(null); window.scrollTo(0, 0); setUi((u) => ({ ...u, login: { tipo: 'emp', email: '', destino: null, etapa: 'tipo' } })); }
+    },
     openModal: setModal,
     toast: setToast,
     go: (t, extra = {}) => { setUi((u) => ({ ...u, tab: { ...u.tab, [u.perfil.tipo]: t }, ...extra })); window.scrollTo(0, 0); },
@@ -770,6 +797,7 @@ function LoginSupa() {
         )}
         <h1>{titulo}</h1>
         <p className="muted">{sub}</p>
+        {ini.plano && etapa !== 'nova-senha' && <div className="login-ok" role="status">Para comprar o plano <b>{(PLANOS.find((p) => p.id === ini.plano) || {}).nome || ini.plano}</b>, entre ou crie a conta da empresa. Em seguida, abrimos o pagamento.</div>}
         {etapa !== 'nova-senha' && aba === 'criar' && (
           <label className="field"><span className="field-l">{tipo === 'cand' ? 'Seu nome completo' : 'Nome do responsável'}</span>
             <input className="in" autoComplete="name" placeholder="Nome e sobrenome" value={nome} onChange={(e) => { setNome(e.target.value); limpa(); }} />
