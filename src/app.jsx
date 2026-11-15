@@ -446,7 +446,7 @@ function Header({ ui, setUi, onReset }) {
   };
   return (
     <header className={`hdr ${landing ? 'is-landing' : ''}`}>
-      <button className="brand" onClick={() => { setUi((u) => ({ ...u, perfil: null, thread: null })); window.scrollTo(0, 0); }} aria-label="Início">
+      <button className="brand" onClick={() => { setOpen(false); setUi((u) => ({ ...u, perfil: null, thread: null, login: null, tela: null, wizard: null, trilha: null })); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-label="Voltar para a tela inicial" title="Tela inicial">
         <img src={LOGO_SYM} alt="" className="brand-sym" />
         <img src={LOGO_DARK} alt="Contratei" className="brand-full" />
       </button>
